@@ -1,7 +1,8 @@
 import sys, time, pygame
 from pygame import *
 from pygame.sprite import Group
-from alien_objs import *
+from game import *
+from objs import *
 
 config = Settings()
 

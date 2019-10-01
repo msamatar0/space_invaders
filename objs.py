@@ -2,7 +2,7 @@ import sys, time, pygame
 from pygame import *
 from pygame.sprite import Sprite
 from time import sleep
-
+from game import *
 
 class Ship():
   def __init__(self, screen, config):

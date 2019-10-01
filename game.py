@@ -2,6 +2,8 @@ import sys, time, pygame
 from pygame import *
 from pygame.sprite import Sprite
 from time import sleep
+from objs import *
+
 
 class Settings():
   def __init__(self):
@@ -18,6 +20,7 @@ class Settings():
     self.alien_speed = 1
     self.drop_speed = 10
     self.fleet_dir = 1
+
 
 class GameStats():
   def __init__(self, config):
