@@ -17,22 +17,23 @@ def run_game():
   ship = Ship(screen, config)
   bullets = Group()
   aliens = Group()
+  board = Scoreboard(config, screen, stats)
 
   create_fleet(config, screen, ship, aliens)
   button.draw()
   update_screen\
-        (config, screen, stats, ship, aliens, bullets, button)
+        (config, screen, stats, board, ship, aliens, bullets, button)
 
   while True:
     check_events\
-      (config, screen, stats, ship, aliens, bullets, button)
+      (config, screen, stats, board, ship, aliens, bullets, button)
     if stats.game_active:
       ship.update()
       update_bullets\
-        (config, screen, ship, aliens, bullets)
+        (config, screen, stats, board, ship, aliens, bullets)
       update_aliens\
         (config, stats, screen, ship, aliens, bullets)
       update_screen\
-        (config, screen, stats, ship, aliens, bullets, button)
+        (config, screen, stats, board, ship, aliens, bullets, button)
 
 run_game()
