@@ -9,7 +9,9 @@ class Settings():
   def __init__(self):
     self.screen_width = 900
     self.screen_height = 600
-    self.bg_color = (230, 230, 230)
+    self.bg_color = (7, 7, 7)
+    self.sprite_width = 50
+    self.sprite_height = 50
     self.speed = .7
     self.lives = 3
     self.bullet_limit = 4
@@ -20,28 +22,69 @@ class Settings():
     self.alien_speed = 1
     self.drop_speed = 10
     self.fleet_dir = 1
+    self.speed_scale = 1.1
 
 
 class GameStats():
   def __init__(self, config):
     self.config = config
     self.reset_stats()
-    self.game_active = True
+    self.game_active = False
 
   def reset_stats(self):
     self.ships_left = self.config.lives
 
-def check_events(config, screen, ship, bullets):
+  
+class Button():
+  def __init__(self, config, screen, msg):
+    self.screen = screen
+    self.screen_rect = screen.get_rect()
+
+    self.width, self.height = 200, 50
+    self.color = (255, 0, 0)
+    self.text_color = (255, 255, 255)
+    self.font = pygame.font.SysFont(None, 48)
+    self.rect = pygame.Rect(0, 0, self.width, self.height)
+    self.rect.center = self.screen_rect.center
+    self.prep(msg)
+  
+  def prep(self, msg):
+    self.msg_image = self.font.render\
+      (msg, True, self.text_color, self.color)
+    self.msg_image_rect = self.msg_image.get_rect()
+    self.msg_image_rect.center = self.rect.center
+
+  def draw(self):
+    self.screen.fill(self.color, self.rect)
+    self.screen.blit(self.msg_image, self.msg_image_rect)
+
+
+def check_events(config, screen, stats, ship, aliens, bullets, button):
   for event in pygame.event.get():
       if event.type == pygame.QUIT:
         sys.exit()
-
       elif event.type == pygame.KEYDOWN:
         check_keydown(config, screen, event, ship, bullets)
       elif event.type == pygame.KEYUP:
         check_keyup(config, screen, event, ship, bullets)
+      elif event.type == pygame.MOUSEBUTTONDOWN:
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        check_button(config, screen, stats, ship, aliens, bullets, button, mouse_x, mouse_y)
 
-  
+
+def check_button\
+  (config, screen, stats, ship, aliens, bullets, button, mouse_x, mouse_y):
+  clicked = button.rect.collidepoint(mouse_x, mouse_y)
+  if clicked and not stats.game_active:
+    pygame.mouse.set_visible(False)
+    stats.reset_stats()
+    stats.game_active = True
+    aliens.empty()
+    bullets.empty()
+    create_fleet(config, screen, ship, aliens)
+    ship.center_ship()
+
+
 def check_keydown(config, screen, event, ship, bullets):
   if event.key == pygame.K_q:
     sys.exit()
@@ -60,12 +103,15 @@ def check_keyup(config, screen, event, ship, bullets):
     ship.left = False
 
 
-def update_screen(config, screen, ship, aliens, bullets):
+def update_screen(config, screen, stats, ship, aliens, bullets, button):
   screen.fill(config.bg_color)
   ship.blitme()
   aliens.draw(screen)
   for bullet in bullets:
     bullet.draw()
+  if not stats.game_active:
+    button.draw()
+
   pygame.display.flip()
 
 
@@ -149,6 +195,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
 
   else:
     stats.game_active = False
+    pygame.mouse.set_visible(True)
 
   create_fleet(ai_settings, screen, ship, aliens)
   ship.center_ship()

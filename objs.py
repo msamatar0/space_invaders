@@ -8,7 +8,8 @@ class Ship():
   def __init__(self, screen, config):
     self.screen = screen
     self.config = config
-    self.image = pygame.image.load('ship.bmp')
+    self.image = pygame.transform.scale((pygame.image.load('sa_ship.png')),\
+      (config.sprite_width, config.sprite_height))
     self.rect = self.image.get_rect()
     self.screen_rect = screen.get_rect()
     self.rect.centerx = self.screen_rect.centerx
@@ -57,7 +58,9 @@ class Alien(Sprite):
     super().__init__()
     self.screen = screen
     self.config = config
-    self.image = pygame.image.load('alien.bmp')
+    self.image =\
+      pygame.transform.scale((pygame.image.load('sa_alien.png')),\
+      (config.sprite_width, config.sprite_height))
     self.rect = self.image.get_rect()
     self.rect.x = self.rect.width
     self.rect.y = self.rect.height
