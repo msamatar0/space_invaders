@@ -1,11 +1,12 @@
 import sys, time, pygame
 from pygame import *
-from pygame.sprite import Sprite
+from pygame.sprite import *
 from time import sleep
 from game import *
 
-class Ship():
-  def __init__(self, screen, config):
+class Ship(Sprite):
+  def __init__(self, config, screen):
+    super(Ship, self).__init__()
     self.screen = screen
     self.config = config
     self.image = pygame.transform.scale((pygame.image.load('sa_ship.png')),\
@@ -82,6 +83,12 @@ class Alien(Sprite):
       return True
 
 
+class Bunker(Sprite):
+  def __init__(self):
+    super(Bunker, self).__init__()
+    
+
+
 class Scoreboard():
   def __init__(self, config, screen, stats):
     self.screen = screen
@@ -90,11 +97,12 @@ class Scoreboard():
     self.stats = stats
     self.text_color = (115, 115, 115)
     self.font = pygame.font.SysFont(None, 48)
-    self.prep()
+    self.prep_score()
     self.prep_hs()
     self.prep_level()
+    self.prep_ships()
 
-  def prep(self):
+  def prep_score(self):
     rounded_score = round(self.stats.score, -1)
     score_str = "{:,}".format(rounded_score)
 
@@ -122,7 +130,19 @@ class Scoreboard():
     self.level_rect.right = self.score_rect.right
     self.level_rect.top = self.score_rect.bottom + 10
 
+  def prep_ships(self):
+    self.ships = Group()
+    for ship_number in range(self.stats.ships_left):
+      ship = Ship(self.config, self.screen)
+      ship.image = pygame.transform.scale((pygame.image.load('sa_ship.png')),\
+      (int(self.config.sprite_width / 2),\
+        int(self.config.sprite_height / 2)))
+      ship.rect.x = 10 + ship_number * ship.rect.width
+      ship.rect.y = 10
+      self.ships.add(ship)
+
   def show(self):
     self.screen.blit(self.score_img, self.score_rect)
     self.screen.blit(self.high_score_image, self.high_score_rect)
     self.screen.blit(self.level_image, self.level_rect)
+    self.ships.draw(self.screen)

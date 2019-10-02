@@ -100,9 +100,10 @@ def check_button\
     stats.reset_stats()
     stats.game_active = True
 
-    board.prep()
+    board.prep_score()
     board.prep_hs()
     board.prep_level()
+    board.prep_ships()
 
     aliens.empty()
     bullets.empty()
@@ -163,7 +164,7 @@ def check_bullet_alien_collisions\
   if collisions:
     for aliens in collisions.values():
       stats.score += config.alien_pts * len(aliens)
-    board.prep()
+    board.prep_score()
     check_high_score(stats, board)
 
   if len(aliens) == 0:
@@ -229,9 +230,10 @@ def change_dir(config, aliens):
   config.fleet_dir *= -1
 
 
-def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
+def ship_hit(config, screen, stats, board, ship, aliens, bullets):
   if stats.ships_left > 0:
     stats.ships_left -= 1
+    board.prep_ships()
     aliens.empty()
     bullets.empty()
 
@@ -239,26 +241,26 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
     stats.game_active = False
     pygame.mouse.set_visible(True)
 
-  create_fleet(ai_settings, screen, ship, aliens)
+  create_fleet(config, screen, ship, aliens)
   ship.center_ship()
 
   sleep(0.5)
 
 
-def check_aliens_bottom(config, stats, screen, ship, aliens, bullets):
+def check_aliens_bottom(config, screen, stats, board, ship, aliens, bullets):
   screen_rect = screen.get_rect()
   for alien in aliens.sprites():
     if alien.rect.bottom >= screen_rect.bottom:
-      ship_hit(config, stats, screen, ship, aliens, bullets)
+      ship_hit(config, screen, stats, board, ship, aliens, bullets)
       break
 
-def update_aliens(config, stats, screen, ship, aliens, bullets):
+def update_aliens(config, screen, stats, board, ship, aliens, bullets):
   check_fleet_edges(config, aliens)
   aliens.update()
 
-  check_aliens_bottom(config, stats, screen, ship, aliens, bullets)
+  check_aliens_bottom(config, screen, stats, board, ship, aliens, bullets)
   if pygame.sprite.spritecollideany(ship, aliens):
-    ship_hit(config, stats, screen, ship, aliens, bullets)
+    ship_hit(config, screen, stats, board, ship, aliens, bullets)
 
 
 def check_high_score(stats, board):

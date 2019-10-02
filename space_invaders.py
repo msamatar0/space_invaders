@@ -14,7 +14,7 @@ def run_game():
 
   button = Button(config, screen, "PLAY")
   stats = GameStats(config)
-  ship = Ship(screen, config)
+  ship = Ship(config, screen)
   bullets = Group()
   aliens = Group()
   board = Scoreboard(config, screen, stats)
@@ -32,7 +32,7 @@ def run_game():
       update_bullets\
         (config, screen, stats, board, ship, aliens, bullets)
       update_aliens\
-        (config, stats, screen, ship, aliens, bullets)
+        (config, screen, stats, board, ship, aliens, bullets)
       update_screen\
         (config, screen, stats, board, ship, aliens, bullets, button)
 
