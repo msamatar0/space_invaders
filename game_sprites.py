@@ -1,7 +1,3 @@
-import sys, time, pygame
-from pygame import *
-from pygame.sprite import *
-from time import sleep
 from game_objs import *
 
 class Ship(Sprite):
@@ -88,7 +84,7 @@ class Bunker(Sprite):
     super(Bunker, self).__init__()
 
 
-class Scoreboard():
+class Scoreboard:
   def __init__(self, config, screen, stats):
     self.screen = screen
     self.screen_rect = screen.get_rect()
@@ -107,7 +103,7 @@ class Scoreboard():
 
     self.score_img = self.font.render\
       (score_str, True, self.text_color, self.config.bg_color)
-    
+
     self.score_rect = self.score_img.get_rect()
     self.score_rect.right = self.screen_rect.right - 15
     self.score_rect.top = 15

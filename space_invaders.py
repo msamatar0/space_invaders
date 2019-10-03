@@ -1,8 +1,5 @@
-import sys, time, pygame as pygame
-from pygame import *
-from pygame.sprite import Group
-from game_objs import *
-from game_sprites import *
+
+from game_fxns import *
 
 config = Settings()
 
