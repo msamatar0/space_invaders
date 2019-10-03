@@ -11,26 +11,26 @@ class Settings():
     self.bg_color = (0, 0, 0)
     self.sprite_width = 50
     self.sprite_height = 50
-    self.ship_speed = .7
+    self.ship_speed = 1.2
     self.lives = 3
     self.bullet_limit = 4
-    self.bullet_speed = .5
+    self.bullet_speed = 1.2
     self.bullet_width = 4
     self.bullet_height = 8
     self.bullet_color = (255, 255, 255)
-    self.alien_speed = .3
+    self.alien_speed = .8
     self.alien_pts = 10
     self.drop_speed = 10
     self.fleet_dir = 1
     self.bunker_space = 90
-    self.speed_scale = 1.1
+    self.speed_scale = 1.2
     self.score_scale = 1.5
     self.init_speed()
 
   def init_speed(self):
-    self.ship_speed = 1
-    self.bullet_speed = 1
-    self.alien_speed = .5
+    self.ship_speed = 1.2
+    self.bullet_speed = 1.2
+    self.alien_speed = .8
     self.fleet_dir = 1
 
   def inc_speed(self):

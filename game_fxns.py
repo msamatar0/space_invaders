@@ -99,10 +99,10 @@ def get_number_aliens_x(config, alien_width):
 
 def create_alien(config, screen, aliens, alien_number, row_number):
     alien = Alien(config, screen)
-    alien_width = alien.rect.width
+    alien_width = alien.rect.width / 1.5
     alien.x = alien_width + 2 * alien_width * alien_number
     alien.rect.x = alien.x
-    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number / 1.5
     aliens.add(alien)
 
 
