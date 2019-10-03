@@ -2,7 +2,7 @@ import sys, time, pygame
 from pygame import *
 from pygame.sprite import *
 from time import sleep
-from game import *
+from game_objs import *
 
 class Ship(Sprite):
   def __init__(self, config, screen):
@@ -86,7 +86,6 @@ class Alien(Sprite):
 class Bunker(Sprite):
   def __init__(self):
     super(Bunker, self).__init__()
-    
 
 
 class Scoreboard():

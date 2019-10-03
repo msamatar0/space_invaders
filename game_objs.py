@@ -1,9 +1,8 @@
 import sys, time, pygame
 from pygame import *
-from pygame.sprite import Sprite
+from pygame.sprite import *
 from time import sleep
-from objs import *
-
+from game_sprites import *
 
 class Settings():
   def __init__(self):
