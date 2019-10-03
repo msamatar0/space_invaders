@@ -1,4 +1,3 @@
-
 from game_fxns import *
 
 config = Settings()
