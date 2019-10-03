@@ -80,9 +80,21 @@ class Alien(Sprite):
 
 
 class Bunker(Sprite):
-  def __init__(self):
+  def __init__(self, config, screen):
     super(Bunker, self).__init__()
+    self.config = config
+    self.screen = screen
+    self.image = pygame.image.load('sa_bunker.png')
+    self.rect = self.image.get_rect()
+    self.screen_rect = screen.get_rect()
+    self.rect.centerx = self.screen_rect.centerx
+    self.rect.bottom = self.screen_rect.bottom
+    self.durability = 10
 
+    def blitme(self):
+      self.screen.blit(self.image, self.rect)
+
+    
 
 class Scoreboard:
   def __init__(self, config, screen, stats):

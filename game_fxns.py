@@ -53,21 +53,6 @@ def check_keyup(config, screen, event, ship, bullets):
         ship.left = False
 
 
-def update_screen(config, screen, stats, board, ship, aliens, bullets, button):
-    screen.fill(config.bg_color)
-    ship.blitme()
-    aliens.draw(screen)
-    for bullet in bullets:
-        bullet.draw()
-
-    board.show()
-
-    if not stats.game_active:
-        button.draw()
-
-    pygame.display.flip()
-
-
 def update_bullets \
                 (config, screen, stats, board, ship, aliens, bullets):
     bullets.update()
@@ -170,6 +155,10 @@ def ship_hit(config, screen, stats, board, ship, aliens, bullets):
     sleep(0.5)
 
 
+def place_bunkers(bunkers):
+    bunker = Bunker
+
+
 def check_aliens_bottom(config, screen, stats, board, ship, aliens, bullets):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
@@ -191,3 +180,18 @@ def check_high_score(stats, board):
     if stats.score > stats.high_score:
         stats.high_score = stats.score
         board.prep_hs()
+
+
+def update_screen(config, screen, stats, board, ship, aliens, bullets, button):
+    screen.fill(config.bg_color)
+    ship.blitme()
+    aliens.draw(screen)
+    for bullet in bullets:
+        bullet.draw()
+
+    board.show()
+
+    if not stats.game_active:
+        button.draw()
+
+    pygame.display.flip()

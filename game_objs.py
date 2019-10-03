@@ -22,6 +22,7 @@ class Settings():
     self.alien_pts = 10
     self.drop_speed = 10
     self.fleet_dir = 1
+    self.bunker_space = 90
     self.speed_scale = 1.1
     self.score_scale = 1.5
     self.init_speed()

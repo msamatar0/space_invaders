@@ -13,6 +13,7 @@ def run_game():
   ship = Ship(config, screen)
   bullets = Group()
   aliens = Group()
+  bunkers = Group()
   board = Scoreboard(config, screen, stats)
 
   create_fleet(config, screen, ship, aliens)
