@@ -9,8 +9,8 @@ class Settings():
     self.screen_width = 900
     self.screen_height = 600
     self.bg_color = (0, 0, 0)
-    self.sprite_width = 50
-    self.sprite_height = 50
+    self.sprite_width = 42
+    self.sprite_height = 42
     self.ship_speed = 1.2
     self.lives = 3
     self.bullet_limit = 4
@@ -23,6 +23,7 @@ class Settings():
     self.drop_speed = 10
     self.fleet_dir = 1
     self.bunker_space = 90
+    self.bunker_max = 4
     self.speed_scale = 1.2
     self.score_scale = 1.5
     self.init_speed()

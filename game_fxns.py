@@ -116,7 +116,7 @@ def get_number_rows(config, ship_height, alien_height):
 def create_fleet(config, screen, ship, aliens):
     alien = Alien(config, screen)
     number_aliens_x = get_number_aliens_x(config, alien.rect.width)
-    number_rows = get_number_rows \
+    number_rows = get_number_rows\
         (config, ship.rect.height, alien.rect.height)
 
     for row_number in range(number_rows):
@@ -155,8 +155,15 @@ def ship_hit(config, screen, stats, board, ship, aliens, bullets):
     sleep(0.5)
 
 
-def place_bunkers(bunkers):
-    bunker = Bunker
+def place_bunkers(bunkers, config, screen):
+
+    for i in range(config.bunker_max):
+        interval =\
+            (i + 1) * (config.screen_width / config.bunker_max) - 120
+        bunker = Bunker(config, screen)
+        bunker.rect.x = interval - bunker.rect.width / 2
+        bunker.rect.y = config.screen_height - 120
+        bunkers.add(bunker)
 
 
 def check_aliens_bottom(config, screen, stats, board, ship, aliens, bullets):
@@ -182,10 +189,15 @@ def check_high_score(stats, board):
         board.prep_hs()
 
 
-def update_screen(config, screen, stats, board, ship, aliens, bullets, button):
+def update_screen\
+    (config, screen, stats, board, ship, aliens, bunkers, bullets, button):
     screen.fill(config.bg_color)
     ship.blitme()
     aliens.draw(screen)
+
+    for bunker in bunkers:
+        bunker.blitme()
+
     for bullet in bullets:
         bullet.draw()
 

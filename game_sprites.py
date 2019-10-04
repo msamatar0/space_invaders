@@ -84,18 +84,18 @@ class Bunker(Sprite):
     super(Bunker, self).__init__()
     self.config = config
     self.screen = screen
-    self.image = pygame.image.load('sa_bunker.png')
+    self.image = pygame.transform.scale((pygame.image.load('sa_bunker.png')),\
+      (config.sprite_width + 10, config.sprite_height + 5))
     self.rect = self.image.get_rect()
     self.screen_rect = screen.get_rect()
     self.rect.centerx = self.screen_rect.centerx
     self.rect.bottom = self.screen_rect.bottom
     self.durability = 10
 
-    def blitme(self):
-      self.screen.blit(self.image, self.rect)
+  def blitme(self):
+    self.screen.blit(self.image, self.rect)
 
     
-
 class Scoreboard:
   def __init__(self, config, screen, stats):
     self.screen = screen

@@ -17,9 +17,10 @@ def run_game():
   board = Scoreboard(config, screen, stats)
 
   create_fleet(config, screen, ship, aliens)
+  place_bunkers(bunkers, config, screen)
   button.draw()
   update_screen\
-        (config, screen, stats, board, ship, aliens, bullets, button)
+        (config, screen, stats, board, ship, aliens, bunkers, bullets, button)
 
   while True:
     check_events\
@@ -31,6 +32,6 @@ def run_game():
       update_aliens\
         (config, screen, stats, board, ship, aliens, bullets)
       update_screen\
-        (config, screen, stats, board, ship, aliens, bullets, button)
+        (config, screen, stats, board, ship, aliens, bunkers, bullets, button)
 
 run_game()
