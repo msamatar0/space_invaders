@@ -85,7 +85,7 @@ class Bunker(Sprite):
     self.config = config
     self.screen = screen
     self.image = pygame.transform.scale((pygame.image.load('sa_bunker.png')),\
-      (config.sprite_width + 40, config.sprite_height + 10))
+      (config.sprite_width + 40, config.sprite_height + 15))
     self.rect = self.image.get_rect()
     self.screen_rect = screen.get_rect()
     self.rect.centerx = self.screen_rect.centerx
