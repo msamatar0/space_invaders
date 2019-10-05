@@ -28,7 +28,7 @@ def run_game():
     if stats.game_active:
       ship.update()
       update_bullets\
-        (config, screen, stats, board, ship, aliens, bullets)
+        (config, screen, stats, board, ship, aliens, bunkers, bullets)
       update_aliens\
         (config, screen, stats, board, ship, aliens, bullets)
       update_screen\

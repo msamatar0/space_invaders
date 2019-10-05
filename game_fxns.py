@@ -54,18 +54,20 @@ def check_keyup(config, screen, event, ship, bullets):
 
 
 def update_bullets \
-                (config, screen, stats, board, ship, aliens, bullets):
+                (config, screen, stats, board, ship, aliens, bunkers, bullets):
     bullets.update()
 
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
-    check_bullet_alien_collisions \
+    check_bullet_alien_collisions\
         (config, screen, stats, board, ship, aliens, bullets)
 
+    check_bunker_bullet_collisions\
+        (config, bullets, bunkers)
 
-def check_bullet_alien_collisions \
+def check_bullet_alien_collisions\
                 (config, screen, stats, board, ship, aliens, bullets):
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 
@@ -156,15 +158,28 @@ def ship_hit(config, screen, stats, board, ship, aliens, bullets):
 
 
 def place_bunkers(bunkers, config, screen):
-
+    offset = 120
     for i in range(config.bunker_max):
         interval =\
-            (i + 1) * (config.screen_width / config.bunker_max) - 120
+            (i + 1) * (config.screen_width / config.bunker_max) - offset
         bunker = Bunker(config, screen)
         bunker.rect.x = interval - bunker.rect.width / 2
-        bunker.rect.y = config.screen_height - 120
+        bunker.rect.y = config.screen_height - offset
         bunkers.add(bunker)
 
+
+def check_bunker_bullet_collisions(config, bullets, bunkers):
+    collisions = pygame.sprite.groupcollide(bullets, bunkers, True, False)
+
+    if collisions:
+        for bullets in collisions:
+            for bunker in collisions.get(bullets):
+                if bunker.hp <= 0:
+                    print(bunker.hp)
+                    bunkers.remove(bunker)
+                else:
+                    bunker.hp -= 1
+                    print(bunker.hp)
 
 def check_aliens_bottom(config, screen, stats, board, ship, aliens, bullets):
     screen_rect = screen.get_rect()

@@ -85,12 +85,12 @@ class Bunker(Sprite):
     self.config = config
     self.screen = screen
     self.image = pygame.transform.scale((pygame.image.load('sa_bunker.png')),\
-      (config.sprite_width + 10, config.sprite_height + 5))
+      (config.sprite_width + 40, config.sprite_height + 10))
     self.rect = self.image.get_rect()
     self.screen_rect = screen.get_rect()
     self.rect.centerx = self.screen_rect.centerx
     self.rect.bottom = self.screen_rect.bottom
-    self.durability = 10
+    self.hp = 8
 
   def blitme(self):
     self.screen.blit(self.image, self.rect)

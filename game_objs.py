@@ -13,6 +13,7 @@ class Settings():
     self.sprite_height = 42
     self.ship_speed = 1.2
     self.lives = 3
+    self.bunker_hp = 8
     self.bullet_limit = 4
     self.bullet_speed = 1.2
     self.bullet_width = 4
