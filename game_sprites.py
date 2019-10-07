@@ -5,7 +5,7 @@ class Ship(Sprite):
     super(Ship, self).__init__()
     self.screen = screen
     self.config = config
-    self.image = pygame.transform.scale((pygame.image.load('sa_ship.png')),\
+    self.image = pygame.transform.scale((pygame.image.load('ship.png')),\
       (config.sprite_width, config.sprite_height))
     self.rect = self.image.get_rect()
     self.screen_rect = screen.get_rect()
@@ -51,13 +51,19 @@ class Bullet(Sprite):
 
 
 class Alien(Sprite):
-  def __init__(self, config, screen):
+  def __init__(self, config, screen, img1, img2):
     super().__init__()
     self.screen = screen
     self.config = config
-    self.image =\
-      pygame.transform.scale((pygame.image.load('sa_alien.png')),\
-      (config.sprite_width, config.sprite_height))
+    self.images = []
+    self.img_idx = 0
+    self.images.append(\
+      pygame.transform.scale((pygame.image.load(img1)),\
+      (config.sprite_width, config.sprite_height)))
+    self.images.append(\
+      pygame.transform.scale((pygame.image.load(img2)),\
+      (config.sprite_width, config.sprite_height)))
+    self.image = self.images[self.img_idx]
     self.rect = self.image.get_rect()
     self.rect.x = self.rect.width
     self.rect.y = self.rect.height
@@ -65,11 +71,16 @@ class Alien(Sprite):
     self.speed = config.alien_speed
 
   def blitme(self):
+    self.image = self.images[self.img_idx]
     self.screen.blit(self.image, self.rect)
 
   def update(self):
     self.x += (self.config.alien_speed * self.config.fleet_dir)
     self.rect.x = self.x
+    if self.img_idx == 0:
+      self.img_idx = 1
+    else:
+      self.img_idx = 0
 
   def check_edges(self):
     screen_rect = self.screen.get_rect()
@@ -81,10 +92,10 @@ class Alien(Sprite):
 
 class Bunker(Sprite):
   def __init__(self, config, screen):
-    super(Bunker, self).__init__()
+    super().__init__()
     self.config = config
     self.screen = screen
-    self.image = pygame.transform.scale((pygame.image.load('sa_bunker.png')),\
+    self.image = pygame.transform.scale((pygame.image.load('bunker.png')),\
       (config.sprite_width + 40, config.sprite_height + 15))
     self.rect = self.image.get_rect()
     self.screen_rect = screen.get_rect()
@@ -141,7 +152,7 @@ class Scoreboard:
     self.ships = Group()
     for ship_number in range(self.stats.ships_left):
       ship = Ship(self.config, self.screen)
-      ship.image = pygame.transform.scale((pygame.image.load('sa_ship.png')),\
+      ship.image = pygame.transform.scale((pygame.image.load('ship.png')),\
       (int(self.config.sprite_width / 2),\
         int(self.config.sprite_height / 2)))
       ship.rect.x = 10 + ship_number * ship.rect.width
