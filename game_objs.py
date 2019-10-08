@@ -9,8 +9,8 @@ class Settings():
     self.screen_width = 900
     self.screen_height = 600
     self.bg_color = (0, 0, 0)
-    self.sprite_width = 42
-    self.sprite_height = 42
+    self.sprite_width = 40
+    self.sprite_height = 34
     self.ship_speed = 1.2
     self.lives = 3
     self.bunker_hp = 8

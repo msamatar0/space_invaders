@@ -100,10 +100,7 @@ def get_number_aliens_x(config, alien_width):
 
 
 def create_alien(config, screen, aliens, alien_number, row_number, alien_type):
-    if alien_type == 0:
-        alien = Alien(config, screen, 'alien1-1.png', 'alien1-2.png')
-    else:
-        alien = Alien(config, screen, 'alien2-1.png', 'alien2-2.png')
+    alien = Alien(config, screen, alien_type)
     alien_width = alien.rect.width / 1.5
     alien.x = alien_width + 2 * alien_width * alien_number
     alien.rect.x = alien.x
@@ -119,7 +116,7 @@ def get_number_rows(config, ship_height, alien_height):
 
 
 def create_fleet(config, screen, ship, aliens):
-    alien = Alien(config, screen, 'alien1-1.png', 'alien1-2.png')
+    alien = Alien(config, screen, 1)
     number_aliens_x = get_number_aliens_x(config, alien.rect.width)
     number_rows = get_number_rows\
         (config, ship.rect.height, alien.rect.height)
@@ -127,12 +124,13 @@ def create_fleet(config, screen, ship, aliens):
     alien_type = 0
 
     for row_number in range(number_rows):
-        if(row_number % 2 == 0):
+        if (row_number + 1) % 3 == 0:
             alien_type = 1
+        elif (row_number + 1) % 3 == 2:
+            alien_type = 2
         else:
-            alien_type = 0
+            alien_type = 3
         for alien_number in range(number_aliens_x):
-            
             create_alien\
                 (config, screen, aliens, alien_number, row_number, alien_type)
 

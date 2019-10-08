@@ -1,5 +1,7 @@
 from game_objs import *
 
+clock = pygame.time.Clock()
+
 class Ship(Sprite):
   def __init__(self, config, screen):
     super(Ship, self).__init__()
@@ -51,19 +53,21 @@ class Bullet(Sprite):
 
 
 class Alien(Sprite):
-  def __init__(self, config, screen, img1, img2):
+  def __init__(self, config, screen, alien_type):
     super().__init__()
     self.screen = screen
     self.config = config
     self.images = []
-    self.img_idx = 0
+    self.frame = 0
     self.images.append(\
-      pygame.transform.scale((pygame.image.load(img1)),\
+      pygame.transform.scale((pygame.image.load(\
+        'alien' + str(alien_type) + '-1.png')),\
       (config.sprite_width, config.sprite_height)))
     self.images.append(\
-      pygame.transform.scale((pygame.image.load(img2)),\
+      pygame.transform.scale((pygame.image.load(\
+        'alien' + str(alien_type) + '-2.png')),\
       (config.sprite_width, config.sprite_height)))
-    self.image = self.images[self.img_idx]
+    self.image = self.images[self.frame]
     self.rect = self.image.get_rect()
     self.rect.x = self.rect.width
     self.rect.y = self.rect.height
@@ -71,16 +75,14 @@ class Alien(Sprite):
     self.speed = config.alien_speed
 
   def blitme(self):
-    self.image = self.images[self.img_idx]
     self.screen.blit(self.image, self.rect)
 
   def update(self):
     self.x += (self.config.alien_speed * self.config.fleet_dir)
     self.rect.x = self.x
-    if self.img_idx == 0:
-      self.img_idx = 1
-    else:
-      self.img_idx = 0
+    if self.rect.x % 20 == 0:
+      self.frame = (self.frame + 1) % len(self.images)
+      self.image = self.images[self.frame]
 
   def check_edges(self):
     screen_rect = self.screen.get_rect()
@@ -90,13 +92,20 @@ class Alien(Sprite):
       return True
 
 
+class UFO(Sprite):
+  def __init__(config, screen):
+    super().__init__()
+    self.config = config
+    self.screen = screen
+
+
 class Bunker(Sprite):
   def __init__(self, config, screen):
     super().__init__()
     self.config = config
     self.screen = screen
     self.image = pygame.transform.scale((pygame.image.load('bunker.png')),\
-      (config.sprite_width + 40, config.sprite_height + 15))
+      (config.sprite_width + 60, config.sprite_height + 26))
     self.rect = self.image.get_rect()
     self.screen_rect = screen.get_rect()
     self.rect.centerx = self.screen_rect.centerx
