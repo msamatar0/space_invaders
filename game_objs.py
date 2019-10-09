@@ -1,4 +1,4 @@
-import sys, time, pygame
+import sys, time, random, pygame
 from pygame import *
 from pygame.sprite import *
 from time import sleep
@@ -14,8 +14,8 @@ class Settings():
     self.ship_speed = 1.2
     self.lives = 3
     self.bunker_hp = 8
-    self.bullet_limit = 3
-    self.bullet_speed = 1.2
+    self.bullet_limit = 2
+    self.bullet_speed = 1.5
     self.bullet_width = 4
     self.bullet_height = 8
     self.bullet_color = (255, 255, 255)
@@ -31,8 +31,8 @@ class Settings():
 
   def init_speed(self):
     self.ship_speed = 1.2
-    self.bullet_speed = 1.2
-    self.alien_speed = .8
+    self.bullet_speed = 1.5
+    self.alien_speed = 50
     self.fleet_dir = 1
 
   def inc_speed(self):
@@ -53,6 +53,7 @@ class GameStats:
     self.ships_left = self.config.lives
     self.score = 0
     self.level = 1
+    self.ufo_dir = 1
 
   
 class Button():
