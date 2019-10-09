@@ -15,7 +15,7 @@ class Settings():
     self.lives = 3
     self.bunker_hp = 8
     self.bullet_limit = 2
-    self.bullet_speed = 1.5
+    self.bullet_speed = 2
     self.bullet_width = 4
     self.bullet_height = 8
     self.bullet_color = (255, 255, 255)
@@ -31,7 +31,7 @@ class Settings():
 
   def init_speed(self):
     self.ship_speed = 1.2
-    self.bullet_speed = 1.7
+    self.bullet_speed = 2
     self.alien_speed = 1.1
     self.fleet_dir = 1
 

@@ -65,7 +65,7 @@ class Alien_Fire(Sprite):
     self.rect.top = alien.rect.top
     self.y = float(self.rect.y)
     self.color = config.bullet_color
-    self.speed = config.bullet_speed - .5
+    self.speed = config.bullet_speed - .6
     pygame.mixer.Channel(2).play(\
       pygame.mixer.Sound('sound/alien_shoot.wav'))
 
@@ -156,8 +156,10 @@ class Bunker(Sprite):
     self.config = config
     self.screen = screen
     self.image = pygame.transform.scale((pygame.image.load('images/bunker.png')),\
-      (config.sprite_width + 60, config.sprite_height + 26))
+      (config.sprite_width + 60, config.sprite_height + 60))
     self.rect = self.image.get_rect()
+    self.rect.x = self.rect.width
+    self.rect.y = self.rect.height
     self.screen_rect = screen.get_rect()
     self.rect.centerx = self.screen_rect.centerx
     self.rect.bottom = self.screen_rect.bottom

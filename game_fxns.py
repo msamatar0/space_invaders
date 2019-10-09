@@ -70,6 +70,9 @@ def update_bullets \
     check_bunker_bullet_collisions\
         (config, bullets, bunkers)
 
+    check_bunker_bullet_collisions\
+        (config, alien_bullets, bunkers)
+
     check_bullet_ufo_collisions\
         (config, screen, stats, board, ufo, bullets)
 
@@ -164,12 +167,13 @@ def change_dir(config, aliens):
     config.fleet_dir *= -1
 
 
-def ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets):
+def ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets):
     if stats.ships_left > 0:
         stats.ships_left -= 1
         board.prep_ships()
         aliens.empty()
         bullets.empty()
+        alien_bullets.empty()
 
     else:
         stats.game_active = False
@@ -188,7 +192,7 @@ def place_bunkers(bunkers, config, screen):
             (i + 1) * (config.screen_width / config.bunker_max) - offset
         bunker = Bunker(config, screen)
         bunker.rect.x = interval - bunker.rect.width / 2
-        bunker.rect.y = config.screen_height - offset
+        bunker.rect.y = config.screen_height - offset * 1.1
         bunkers.add(bunker)
 
 
@@ -220,14 +224,16 @@ def update_aliens\
     for alien in aliens:
         roll = random.randrange(1, 20001)
         
-        if roll > 19997:
+        if roll > 19998:
             shot = Alien_Fire(config, screen, alien)
             alien_bullets.add(shot)
 
 
     check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bullets)
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets)
+        ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets)
+    if pygame.sprite.spritecollideany(ship, alien_bullets):
+        ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets)
 
 
 def update_ufo(config, screen, stats, ufo):
