@@ -31,8 +31,8 @@ class Settings():
 
   def init_speed(self):
     self.ship_speed = 1.2
-    self.bullet_speed = 1.5
-    self.alien_speed = 50
+    self.bullet_speed = 1.7
+    self.alien_speed = 1.1
     self.fleet_dir = 1
 
   def inc_speed(self):

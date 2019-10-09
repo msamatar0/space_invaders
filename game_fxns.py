@@ -56,8 +56,9 @@ def check_keyup(config, screen, event, ship, bullets):
 
 
 def update_bullets \
-                (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets):
+                (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets):
     bullets.update()
+    alien_bullets.update()
 
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
@@ -121,7 +122,7 @@ def create_alien(config, screen, aliens, alien_number, row_number, alien_type):
     alien.rect.x = alien.x
     alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number / 1.5
     aliens.add(alien)
-    
+
 
 def get_number_rows(config, ship_height, alien_height):
     available_space_y = (config.screen_height - \
@@ -198,11 +199,9 @@ def check_bunker_bullet_collisions(config, bullets, bunkers):
         for bullets in collisions:
             for bunker in collisions.get(bullets):
                 if bunker.hp <= 0:
-                    print(bunker.hp)
                     bunkers.remove(bunker)
                 else:
                     bunker.hp -= 1
-                    print(bunker.hp)
 
 def check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bullets):
     screen_rect = screen.get_rect()
@@ -212,13 +211,24 @@ def check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bul
             break
 
 
-def update_aliens(config, screen, stats, board, ship, aliens, bunkers, bullets):
+def update_aliens\
+    (config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets):
     check_fleet_edges(config, aliens)
     aliens.update()
+    alien_bullets.update()
+
+    for alien in aliens:
+        roll = random.randrange(1, 20001)
+        
+        if roll > 19997:
+            shot = Alien_Fire(config, screen, alien)
+            alien_bullets.add(shot)
+
 
     check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bullets)
     if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets)
+
 
 def update_ufo(config, screen, stats, ufo):
     roll = random.randrange(1, 201)
@@ -227,11 +237,11 @@ def update_ufo(config, screen, stats, ufo):
         new_ufo = UFO(config, screen, stats.ufo_dir)
         stats.ufo_dir *= -1
         new_ufo.rect.y = 20
-        new_ufo.rect.x = -50
+        new_ufo.rect.x =\
+            -50 if status.ufo_dir else 50 + config.screen_width
         ufo.add(new_ufo)
         print("new ufo")
 
-    if not ufo.empty():
         ufo.update()
 
 
@@ -242,7 +252,7 @@ def check_high_score(stats, board):
 
 
 def update_screen\
-    (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, button):
+    (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button):
     screen.fill(config.bg_color)
     ship.blitme()
     aliens.draw(screen)
@@ -254,6 +264,9 @@ def update_screen\
         bunker.blitme()
 
     for bullet in bullets:
+        bullet.draw()
+
+    for bullet in alien_bullets:
         bullet.draw()
 
     board.show()

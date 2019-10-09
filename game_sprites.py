@@ -44,6 +44,8 @@ class Bullet(Sprite):
     self.y = float(self.rect.y)
     self.color = config.bullet_color
     self.speed = config.bullet_speed
+    pygame.mixer.Channel(1).play(\
+      pygame.mixer.Sound('sound/ship_shoot.wav'))
 
   def update(self):
     self.y -= self.speed
@@ -52,6 +54,27 @@ class Bullet(Sprite):
   def draw(self):
     pygame.draw.rect(self.screen, self.color, self.rect)
 
+
+class Alien_Fire(Sprite):
+  def __init__(self, config, screen, alien):
+    super().__init__()
+    self.screen = screen
+    self.rect = pygame.Rect\
+      (0, 0, config.bullet_width, config.bullet_height)
+    self.rect.centerx = alien.rect.centerx
+    self.rect.top = alien.rect.top
+    self.y = float(self.rect.y)
+    self.color = config.bullet_color
+    self.speed = config.bullet_speed - .5
+    pygame.mixer.Channel(2).play(\
+      pygame.mixer.Sound('sound/alien_shoot.wav'))
+
+  def update(self):
+    self.y += self.speed
+    self.rect.y = self.y
+
+  def draw(self):
+    pygame.draw.rect(self.screen, self.color, self.rect)
 
 class Alien(Sprite):
   def __init__(self, config, screen, alien_type):
@@ -124,6 +147,9 @@ class UFO(Sprite):
       self.frame = (self.frame + 1) % len(self.images)
       self.image = self.images[self.frame]
 
+  def blitme(self):
+    self.screen.blit(self.image, self.rect)
+
 class Bunker(Sprite):
   def __init__(self, config, screen):
     super().__init__()
@@ -147,8 +173,8 @@ class Scoreboard:
     self.screen_rect = screen.get_rect()
     self.config = config
     self.stats = stats
-    self.text_color = (115, 115, 115)
-    self.font = pygame.font.SysFont(None, 48)
+    self.text_color = (255, 255, 255)
+    self.font = pygame.font.SysFont(None, 24)
     self.prep_score()
     self.prep_hs()
     self.prep_level()
