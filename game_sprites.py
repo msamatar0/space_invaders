@@ -65,7 +65,7 @@ class Alien_Fire(Sprite):
     self.rect.top = alien.rect.top
     self.y = float(self.rect.y)
     self.color = config.bullet_color
-    self.speed = config.bullet_speed - 1
+    self.speed = config.alien_bullet_speed
     pygame.mixer.Channel(2).play(\
       pygame.mixer.Sound('sound/alien_shoot.wav'))
 

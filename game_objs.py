@@ -33,7 +33,8 @@ class Settings():
   def init_speed(self):
     self.ship_speed = 1.4
     self.bullet_speed = 2.8
-    self.alien_speed = 777.1
+    self.alien_speed = 1.1
+    self.alien_bullet_speed = .9
     self.fleet_dir = 1
 
   def inc_speed(self):
@@ -50,6 +51,8 @@ class GameStats:
     self.game_active = False
     self.game_exiting = False
     self.high_score = 0
+    self.records = []
+    self.max_records = 10
 
   def reset_stats(self):
     self.ships_left = self.config.lives
@@ -69,7 +72,7 @@ class Button():
     self.font = font
     self.rect = pygame.Rect(0, 0, self.width, self.height)
     self.rect.center = self.screen_rect.center
-    self.rect.y += 50
+    self.rect.y += 100
     self.prep(msg)
   
   def prep(self, msg):

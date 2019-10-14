@@ -9,6 +9,7 @@ def run_game():
 
   screen = pygame.display.set_mode\
     ((config.screen_width, config.screen_height))
+  screen_rect = screen.get_rect()
   pygame.display.set_caption("Space Invaders...?")
   icon = pygame.display.set_icon(\
     pygame.image.load('images/ship.png'))
@@ -25,9 +26,14 @@ def run_game():
 
   button.draw()
   
+  title_1 = font.render\
+    ("SPACE", True, board.text_color, config.bg_color)
+  title_2 = font.render\
+    ("INVADERS", True, board.text_color, config.bg_color)
+  
   while True:
     update_screen\
-      (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button)
+      (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button, False)
     if check_events\
       (config, screen, stats, board, ship, aliens, bunkers, ufo, bullets, button):
       break
@@ -36,7 +42,7 @@ def run_game():
   create_fleet(config, screen, ship, aliens)
 
   update_screen\
-    (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button)
+    (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button, True)
   pygame.mixer.music.load('sound/theme.wav')
   pygame.mixer.music.play(-1)
   while not stats.game_exiting:
@@ -51,6 +57,6 @@ def run_game():
       update_ufo\
         (config, screen, stats, ufo)
       update_screen\
-        (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button)
+        (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button, True)
 
 run_game()

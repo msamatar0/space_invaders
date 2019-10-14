@@ -265,9 +265,10 @@ def check_high_score(stats, board):
 
 
 def update_screen\
-    (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button):
+    (config, screen, stats, board, ship, aliens, ufo, bunkers, bullets, alien_bullets, button, flag):
     screen.fill(config.bg_color)
-    ship.blitme()
+    if flag:
+        ship.blitme()
     aliens.draw(screen)
 
     for ufo_spawn in ufo:
@@ -282,7 +283,8 @@ def update_screen\
     for bullet in alien_bullets:
         bullet.draw()
 
-    board.show()
+    if flag:
+        board.show()
 
     if not stats.game_active:
         button.draw()
