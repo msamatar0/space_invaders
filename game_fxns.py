@@ -6,17 +6,23 @@ def check_events(config, screen, stats, board, ship, aliens, bunkers, ufo, bulle
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown(config, screen, event, ship, bullets)
+            check_keydown(config, screen, stats, event, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup(config, screen, event, ship, bullets)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_button \
-                (config, screen, stats, board, ship, aliens, bunkers, bullets, button, mouse_x, mouse_y)
+            if check_button \
+                (config, screen, stats, board, ship, aliens, bunkers, bullets, button, mouse_x, mouse_y):
+                return True
+
+
+
+def title_screen(config, screen, stats):
+    x = 1
 
 
 def check_button \
-                (config, screen, stats, board, ship, aliens, bunkers, bullets, button, mouse_x, mouse_y):
+    (config, screen, stats, board, ship, aliens, bunkers, bullets, button, mouse_x, mouse_y):
     clicked = button.rect.collidepoint(mouse_x, mouse_y)
     if clicked and not stats.game_active:
         config.init_speed()
@@ -35,11 +41,12 @@ def check_button \
         create_fleet(config, screen, ship, aliens)
         ship.center_ship()
         place_bunkers(bunkers, config, screen)
+        return clicked
 
 
-def check_keydown(config, screen, event, ship, bullets):
+def check_keydown(config, screen, stats, event, ship, bullets):
     if event.key == pygame.K_q:
-        sys.exit()
+        stats.game_exiting = True
     elif event.key == pygame.K_RIGHT:
         ship.right = True
     elif event.key == pygame.K_LEFT:
@@ -123,7 +130,7 @@ def create_alien(config, screen, aliens, alien_number, row_number, alien_type):
     alien_width = alien.rect.width / 1.5
     alien.x = alien_width + 2 * alien_width * alien_number
     alien.rect.x = alien.x
-    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number / 1.5
+    alien.rect.y = (alien.rect.height + 2 * alien.rect.height * row_number / 1.5) + 35
     aliens.add(alien)
 
 
@@ -192,7 +199,7 @@ def place_bunkers(bunkers, config, screen):
             (i + 1) * (config.screen_width / config.bunker_max) - offset
         bunker = Bunker(config, screen)
         bunker.rect.x = interval - bunker.rect.width / 2
-        bunker.rect.y = config.screen_height - offset * 1.1
+        bunker.rect.y = config.screen_height - offset * 1.3
         bunkers.add(bunker)
 
 
@@ -207,11 +214,11 @@ def check_bunker_bullet_collisions(config, bullets, bunkers):
                 else:
                     bunker.hp -= 1
 
-def check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bullets):
+def check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets)
+            ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets)
             break
 
 
@@ -229,7 +236,7 @@ def update_aliens\
             alien_bullets.add(shot)
 
 
-    check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bullets)
+    check_aliens_bottom(config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets)
     if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(config, screen, stats, board, ship, aliens, bunkers, bullets, alien_bullets)
     if pygame.sprite.spritecollideany(ship, alien_bullets):
@@ -244,7 +251,7 @@ def update_ufo(config, screen, stats, ufo):
         stats.ufo_dir *= -1
         new_ufo.rect.y = 20
         new_ufo.rect.x =\
-            -50 if status.ufo_dir else 50 + config.screen_width
+            -50 if stats.ufo_dir else 50 + config.screen_width
         ufo.add(new_ufo)
         print("new ufo")
 
